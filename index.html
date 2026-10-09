@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Temporada 2 · Mods</title>
+<meta name="description" content="Guía de los mods del servidor Temporada 2 de Project Zomboid (Build 42.21): qué hace cada uno, qué instalar y qué hay que saber.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea; --surface:#ffffff; --surface-2:#ece7dc; --text:#1d1b17; --muted:#5f5a50;
+  --line:#d9d2c3; --accent:#a8321f; --accent-soft:#f3dcd6; --ok:#2f6b3a; --ok-soft:#dcebdc;
+  --warn:#8a5a00; --warn-soft:#f6e7c4; --info:#2a5b8a; --info-soft:#dbe7f3; --shadow:0 1px 2px rgba(0,0,0,.06);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121311; --surface:#1b1d1a; --surface-2:#242722; --text:#e9e6de; --muted:#a29e93;
+    --line:#33372f; --accent:#e0644b; --accent-soft:#3a1f19; --ok:#7fc48a; --ok-soft:#1d2e20;
+    --warn:#e2b250; --warn-soft:#352a12; --info:#7fb2e5; --info-soft:#18283a; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121311; --surface:#1b1d1a; --surface-2:#242722; --text:#e9e6de; --muted:#a29e93;
+  --line:#33372f; --accent:#e0644b; --accent-soft:#3a1f19; --ok:#7fc48a; --ok-soft:#1d2e20;
+  --warn:#e2b250; --warn-soft:#352a12; --info:#7fb2e5; --info-soft:#18283a; --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header.hero{border-bottom:1px solid var(--line);background:var(--surface)}
+.hero .wrap{padding-top:40px;padding-bottom:28px}
+.kicker{font:600 13px/1 Inter,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(34px,6vw,56px)/1.05 Oswald,Impact,sans-serif;letter-spacing:.01em;margin:10px 0 12px;text-transform:uppercase}
+h2{font:700 28px/1.15 Oswald,Impact,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:0 0 6px}
+h3{font:600 17px/1.3 Inter,sans-serif;margin:0}
+.lead{color:var(--muted);max-width:720px;margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.stat{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font:700 24px/1 Oswald,sans-serif}
+.stat span{font-size:13px;color:var(--muted)}
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav.toc .wrap{display:flex;gap:6px;overflow-x:auto;padding-top:10px;padding-bottom:10px;scrollbar-width:none}
+nav.toc a{flex:none;text-decoration:none;color:var(--text);font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface)}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent)}
+section{padding:40px 0;border-bottom:1px solid var(--line);scroll-margin-top:56px}
+.sub{color:var(--muted);margin:0 0 20px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+.card p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.card.alert{border-left:4px solid var(--accent)}
+.card.warn{border-left:4px solid var(--warn)}
+.card.ok{border-left:4px solid var(--ok)}
+.card.info{border-left:4px solid var(--info)}
+ol.steps{margin:0;padding-left:22px}
+ol.steps li{margin:8px 0}
+.kbd{font:600 13px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+table{width:100%;border-collapse:collapse;font-size:15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+tr:last-child td{border-bottom:none}
+.table-wrap{overflow-x:auto;border-radius:12px}
+/* Mods explorer */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.search{flex:1 1 260px;min-width:0;font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text)}
+.search:focus{outline:2px solid var(--accent);outline-offset:1px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 14px Inter,sans-serif;padding:7px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.cat{margin:28px 0 8px}
+.cat-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.cat-head .count{font-size:13px;color:var(--muted)}
+.cat-desc{color:var(--muted);margin:0 0 12px;font-size:15px}
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px}
+.mod h3 a{color:var(--text);text-decoration:none}
+.mod h3 a:hover{color:var(--accent);text-decoration:underline}
+.mod p{margin:0;color:var(--muted);font-size:14.5px}
+.mod .note{font-size:13.5px;color:var(--text);background:var(--surface-2);border-radius:8px;padding:6px 9px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.02em;padding:4px 7px;border-radius:6px}
+.t-top{background:var(--ok-soft);color:var(--ok)}
+.t-warn{background:var(--warn-soft);color:var(--warn)}
+.t-client{background:var(--info-soft);color:var(--info)}
+.t-lib{background:var(--surface-2);color:var(--muted)}
+.mod .id{margin-top:auto;font:12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+.empty{color:var(--muted);padding:20px 0}
+.btn{font:600 14px Inter,sans-serif;padding:9px 14px;border-radius:10px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.idbox{width:100%;min-height:90px;font:12px ui-monospace,Menlo,monospace;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);resize:vertical}
+footer{padding:28px 0 48px;color:var(--muted);font-size:14px}
+.theme-toggle{position:absolute;top:16px;right:16px}
+.hero{position:relative}
+@media (max-width:600px){
+  .hero .wrap{padding-top:56px}
+  th,td{padding:8px 10px}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <button class="btn ghost theme-toggle" id="themeBtn" type="button" aria-label="Cambiar tema">Tema</button>
+  <div class="wrap">
+    <div class="kicker">Project Zomboid · Build 42.21 · Co-op</div>
+    <h1>Temporada 2 — Guía de mods</h1>
+    <p class="lead">Todo lo que trae el servidor, qué hace cada mod, qué tienes que instalar antes de entrar y las cosas que conviene saber para no morir (tan rápido).</p>
+    <div class="stats">
+      <div class="stat"><b id="statMods">117</b><span>mods del Workshop</span></div>
+      <div class="stat"><b>~70</b><span>armas de fuego</span></div>
+      <div class="stat"><b>73</b><span>armas cuerpo a cuerpo extra</span></div>
+      <div class="stat"><b>16</b><span>mods de vehículos KI5</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Secciones">
+  <div class="wrap">
+    <a href="#instalar">Instalar</a>
+    <a href="#reglas">Reglas del server</a>
+    <a href="#saber">Cosas que debes saber</a>
+    <a href="#destacados">Lo más interesante</a>
+    <a href="#mods">Todos los mods</a>
+    <a href="#problemas">Problemas comunes</a>
+    <a href="#descartados">Descartados</a>
+  </div>
+</nav>
+
+<main>
+<section id="instalar">
+  <div class="wrap">
+    <h2>Antes de entrar</h2>
+    <p class="sub">El servidor se hostea desde el juego, así que <strong>todos necesitan exactamente los mismos mods</strong> y la misma versión.</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>1 · Versión correcta</h3>
+        <p>En Steam: clic derecho en Project Zomboid → Propiedades → <strong>Betas → Ninguna</strong>. En el menú del juego, abajo, debe decir <span class="kbd">42.21</span>.</p>
+      </div>
+      <div class="card">
+        <h3>2 · Suscríbete a todos los mods</h3>
+        <p>Abre cada mod de la lista de abajo (el nombre es un enlace a Steam) y dale a <strong>Suscribirse</strong>. Abajo tienes la lista de IDs por si la necesitas.</p>
+      </div>
+      <div class="card info">
+        <h3>3 · Activa 3 mods en tu menú</h3>
+        <p>En <strong>Menú principal → Mods</strong> activa <strong>Fluffy Hair</strong>, <strong>Spongie's Hair</strong> y <strong>Spongie's Character Customisation</strong>, y reinicia el juego. Si no, no verás caras ni peinados.</p>
+      </div>
+      <div class="card info">
+        <h3>4 · Caballos (una sola vez)</h3>
+        <p>Para que <strong>Horse Mod</strong> funcione, abre el juego una vez con el mod activado en tu menú antes de conectarte (el "meatball fix" que pide su página).</p>
+      </div>
+      <div class="card ok">
+        <h3>5 · Reinicia Steam antes de cada sesión</h3>
+        <p>Así descargas las últimas actualizaciones. Si un autor actualiza un mod justo antes de jugar, el juego no te deja entrar hasta que todos tengan la misma versión.</p>
+      </div>
+      <div class="card ok">
+        <h3>6 · Conéctate y espera</h3>
+        <p>La primera vez tarda bastante en cargar (son más de 100 mods). <strong>No canceles</strong> aunque parezca congelado.</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px">
+      <h3>IDs del Workshop</h3>
+      <p>Útil si usas una herramienta para suscribirte en bloque o para comparar listas.</p>
+      <textarea class="idbox" id="idbox" readonly aria-label="Lista de IDs del Workshop"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+        <button class="btn" id="copyIds" type="button">Copiar IDs</button>
+        <span id="copyMsg" class="sub" style="margin:0;align-self:center"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reglas">
+  <div class="wrap">
+    <h2>Reglas del servidor</h2>
+    <p class="sub">Así está configurado el mundo de Temporada 2.</p>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Opción</th><th>Valor</th><th>Qué significa</th></tr>
+      <tr><td>PvP</td><td>Desactivado</td><td>No se pueden herir entre ustedes, ni por accidente.</td></tr>
+      <tr><td>Experiencia</td><td>2×</td><td>Todas las habilidades suben al doble de rápido.</td></tr>
+      <tr><td>Lectura</td><td>Muy rápida</td><td>Un libro de habilidad tarda ~1 minuto real.</td></tr>
+      <tr><td>Multi-hit</td><td>Activado</td><td>Algunas armas cuerpo a cuerpo golpean a varios zombies a la vez.</td></tr>
+      <tr><td>Zombies</td><td>Tambaleantes · cantidad normal</td><td>Lentos, más concentrados en ciudades. Vista y oído entre normal y malo.</td></tr>
+      <tr><td>Contagio</td><td>Solo mordidas</td><td>Si te muerden, mueres en 2–3 días.</td></tr>
+      <tr><td>Reaparición</td><td>Desactivada</td><td>Lo que maten queda muerto. Pero los zombies vivos <strong>migran</strong> a zonas limpias cada 12 h.</td></tr>
+      <tr><td>Día</td><td>1 h 30 min reales</td><td>Empiezan en julio, Muldraugh (o donde elijan con Spawn Selector).</td></tr>
+      <tr><td>Dormir</td><td>Obligatorio</td><td>Con True Sleep el cansancio importa: hay que dormir.</td></tr>
+      <tr><td>Agua / luz</td><td>Se cortan entre 0–2 meses / 14 días–2 meses</td><td>Planeen agua y generador temprano.</td></tr>
+      <tr><td>Respaldos</td><td>5 copias</td><td>Se guarda una copia cada vez que arranca el servidor.</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+
+<section id="saber">
+  <div class="wrap">
+    <h2>Cosas que debes saber</h2>
+    <p class="sub">Los mods cambian varias mecánicas del juego base. Esto es lo que más sorprende.</p>
+    <div class="grid2">
+      <div class="card alert"><h3>El inventario es tipo Tetris</h3><p>Con <strong>Inventory Tetris</strong> cada objeto ocupa casillas y hay que acomodarlo (se puede rotar). La mochila "llena" depende del espacio, no solo del peso. Trae su propia pantalla de equipo con tu personaje.</p></div>
+      <div class="card alert"><h3>Guarda tu progreso en un diario</h3><p>Fabrica el <strong>Skill Recovery Journal</strong> y escribe en él. Si mueres, tu nuevo personaje recupera habilidades leyéndolo. Hazlo seguido.</p></div>
+      <div class="card"><h3>Todo lo cercano en una ventana</h3><p><strong>Proximity Inventory</strong> junta muebles, cajas y cadáveres cercanos en una sola lista para saquear rápido.</p></div>
+      <div class="card"><h3>Palanca = llave maestra</h3><p>Con <strong>Pry Open</strong> fuerzas puertas, ventanas y autos con una palanca. Depende de tu fuerza y habilidad; puede herirte o activar alarmas.</p></div>
+      <div class="card"><h3>Accesorios de armas</h3><p>Usa el <strong>Attachment Workbench</strong> de Guns of Marz para planear miras, linternas y empuñaduras; tu personaje las instala. Prueben con un rifle con rieles (M16).</p></div>
+      <div class="card"><h3>Silenciadores caseros</h3><p>Con <strong>Simple Suppressors</strong> haces uno con un <strong>filtro de aceite</strong> (barato, se gasta) o en un torno (duradero). Se calientan y humean con disparos seguidos.</p></div>
+      <div class="card"><h3>Munición desde cero</h3><p><strong>Ammo Maker</strong> permite hacer pólvora, fundir balas y recargar casquillos (59 calibres, incluidos los de Guns of Marz). Guarden los casquillos.</p></div>
+      <div class="card"><h3>Artes marciales</h3><p><strong>I Am Bruce Lee Now</strong>: con vendas especiales en las manos peleas a mano limpia. Con multi-hit activado, es muy divertido.</p></div>
+      <div class="card info"><h3>Señalar cosas al grupo</h3><p><strong>Ping Items!</strong> marca objetos y zombies para que tus compañeros los vean. Revisa su tecla en Opciones → Mods.</p></div>
+      <div class="card info"><h3>Elige dónde aparecer</h3><p><strong>Spawn Selector</strong> te deja elegir el lugar exacto en un mapa. Pónganse de acuerdo para empezar juntos.</p></div>
+      <div class="card warn"><h3>Convoyes y zonas militares</h3><p><strong>Vehicle Military Zones</strong> agrega controles y convoyes abandonados con vehículos militares blindados. Son raros y valiosos, pero suelen estar rodeados de zombies.</p></div>
+      <div class="card warn"><h3>Cuidado con los autos sin aceite</h3><p>Las fugas de aceite de Simple Suppressors están desactivadas, así que sacar un filtro de aceite no rompe el motor.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="destacados">
+  <div class="wrap">
+    <h2>Lo más interesante</h2>
+    <p class="sub">Si solo vas a mirar unos pocos, que sean estos.</p>
+    <div class="mods" id="highlights"></div>
+  </div>
+</section>
+
+<section id="mods">
+  <div class="wrap">
+    <h2>Todos los mods</h2>
+    <p class="sub">Busca por nombre o filtra por categoría. Cada nombre lleva a su página en Steam.</p>
+    <div class="toolbar">
+      <input class="search" id="q" type="search" placeholder="Buscar mod… (ej: humvee, silenciador, pelo)" aria-label="Buscar mod">
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Categorías"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;font-size:13px;color:var(--muted)">
+      <span><span class="tag t-top">DESTACADO</span> imprescindible</span>
+      <span><span class="tag t-warn">OJO</span> tiene algo que saber</span>
+      <span><span class="tag t-client">ACTIVAR EN MENÚ</span> actívalo también en tu menú de mods</span>
+      <span><span class="tag t-lib">BASE</span> librería que usan otros mods</span>
+    </div>
+    <div id="list"></div>
+  </div>
+</section>
+
+<section id="problemas">
+  <div class="wrap">
+    <h2>Problemas comunes</h2>
+    <p class="sub">Lo que ya nos pasó y cómo se arregla.</p>
+    <div class="grid2">
+      <div class="card"><h3>"La versión del artículo de la Workshop es diferente a la del servidor"</h3><p>Un autor actualizó un mod. Todos reinician Steam; el host cierra el servidor (guardando), reinicia Steam y lo vuelve a abrir.</p></div>
+      <div class="card"><h3>"File doesn't match the one on the server"</h3><p>Un archivo de tu juego no coincide con el del host. Verifica la integridad en Steam (Propiedades → Archivos instalados) y avisa al host con una captura del archivo que aparece.</p></div>
+      <div class="card"><h3>Se queda cargando y te saca</h3><p>Casi siempre faltan mods o no terminaron de descargarse. Revisa que estés suscrito a todos y espera a que Steam termine.</p></div>
+      <div class="card"><h3>No veo caras ni peinados nuevos</h3><p>Activa Fluffy Hair, Spongie's Hair y Spongie's Character Customisation en tu menú principal de mods y reinicia el juego.</p></div>
+      <div class="card"><h3>La información de un arma no aparece</h3><p>Better Clothing Info y Guns of Marz modifican el mismo cuadro de información. Si al pasar el cursor por un arma no ves sus datos, avisa al host.</p></div>
+      <div class="card"><h3>El servidor sale "Terminado"</h3><p>Algún mod tiró un error al arrancar. El host revisa el log del servidor (<span class="kbd">coop-console.txt</span>) para encontrar cuál.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="descartados">
+  <div class="wrap">
+    <h2>Descartados (y por qué)</h2>
+    <p class="sub">Mods populares que probamos o revisamos y no entraron.</p>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Mod</th><th>Motivo</th></tr>
+      <tr><td>Common Sense (original y de 1Vita)</td><td>El original tumbaba el servidor en 42.20+. La versión de 1Vita dice que en multijugador "funciona a medias" y repite funciones que ya tenemos. Lo reemplaza Pry Open.</td></tr>
+      <tr><td>Otros packs de armas (Brita, Gael's Gun Store, Firearms, VWP, Guns of 93…)</td><td>Chocan con Guns of Marz y Gunworks.</td></tr>
+      <tr><td>Improvised Silencers</td><td>Rompe los accesorios de Guns of Marz. Lo reemplaza Simple Suppressors.</td></tr>
+      <tr><td>Vehículos de Papa_Chad (tanques, M113, Humvee con torreta)</td><td>Muy espectaculares, pero su framework está a medio funcionar en multijugador. Se revisarán cuando se actualice.</td></tr>
+      <tr><td>Tactical Hold</td><td>Choca con Fancy Handwork y falla en multijugador.</td></tr>
+      <tr><td>Vanilla Vehicles Animated</td><td>En multijugador las animaciones solo las ve cada jugador en su pantalla.</td></tr>
+      <tr><td>Project RV Interior</td><td>Pide desactivar la comprobación de archivos del servidor.</td></tr>
+      <tr><td>Bicycle!</td><td>Choca con mods de armas que usan acciones de mejora (como los accesorios de Guns of Marz).</td></tr>
+      <tr><td>Mods de físicas y sonido de motor</td><td>Todos piden instalar Java a mano en cada PC.</td></tr>
+    </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Guía del servidor Temporada 2 · Project Zomboid Build 42.21 · Lista revisada en octubre de 2026. Los mods pertenecen a sus autores; los enlaces llevan a sus páginas en Steam Workshop.</div>
+</footer>
+
+<script>
+const CATS = [
+  {id:"coop",  name:"Co-op y diversión",          desc:"Para jugar en grupo y pasarlo mejor."},
+  {id:"guns",  name:"Armas de fuego",             desc:"Guns of Marz como base, más silenciadores, munición y accesorios."},
+  {id:"melee", name:"Cuerpo a cuerpo y arcos",    desc:"Hachas, katanas, artes marciales, lanzas y arcos."},
+  {id:"inv",   name:"Inventario y equipo",        desc:"Cómo llevas y ordenas tus cosas."},
+  {id:"ui",    name:"Interfaz e información",     desc:"Ver mejor tu estado, tus habilidades y el mapa."},
+  {id:"surv",  name:"Supervivencia y día a día",  desc:"Comer, dormir, curarse, construir y moverse por el mundo."},
+  {id:"look",  name:"Personaje y ropa",           desc:"Caras, peinados y mucha más ropa."},
+  {id:"veh",   name:"Vehículos",                  desc:"Autos KI5 civiles y militares, y mejoras para todos los autos."},
+  {id:"lib",   name:"Librerías (base técnica)",   desc:"No agregan nada visible: otros mods las necesitan para funcionar."}
+];
+// [workshopId, nombre, categoría, descripción, etiquetas, nota]
+const MODS = [
+  // Co-op
+  [3772052709,"Spawn Selector","coop","Elige en un mapa interactivo el lugar exacto donde aparecer. Ideal para empezar todos juntos.",["top"]],
+  [3776262249,"Ping Items! Friends!","coop","Marca objetos y zombies para que tus compañeros los vean. Funciona a mitad de partida.",["top"],"Revisa su tecla en Opciones → Mods."],
+  [2553809727,"KillCount","coop","Contador de zombies eliminados, también el de tus compañeros y el total del servidor."],
+  [3739256725,"New Music","coop","Canciones nuevas para radios y tocadiscos."],
+  [3740052292,"Companion Dogs","coop","Adopta un perro que te acompaña, alerta y ayuda. Hay que alimentarlo.",["warn"],"Está en versión alfa."],
+  [3661336777,"Horse Mod","veh","Caballos montables con equipo. Los ranchos aparecen en el mundo nuevo.",["client","warn"],"Ábrelo una vez en tu menú antes de conectarte. No bajes escaleras montado."],
+  // Armas de fuego
+  [3722134990,"Guns of Marz","guns","~70 armas reales de alta calidad: pistolas, revólveres, subfusiles, escopetas, rifles, ametralladoras y lanzagranadas, con accesorios, culatas plegables y bípodes.",["top"]],
+  [3610677934,"Hot Brass","guns","Casquillos que salen volando al disparar y recarga táctica.",[],"Su módulo de fabricar munición está desactivado: lo reemplaza Ammo Maker."],
+  [3798555914,"GoM Attachment Workbench","guns","Ventana para planificar los accesorios de cada arma (miras, linternas, empuñaduras). Luego tu personaje los instala.",["top"]],
+  [3782565181,"Simple Suppressors","guns","16 silenciadores en 8 calibres: hechos con un filtro de aceite (baratos, se gastan) o en un torno (duraderos, reparables). También aparecen en armerías y búnkeres.",["top"]],
+  [3798463892,"Simple Suppressors – GoM Patch","guns","Adapta los silenciadores a todas las armas de Guns of Marz y sus calibres extra."],
+  [2788256295,"Ammo Maker","guns","Fabrica munición de 59 calibres: pólvora desde cero, balas fundidas, casquillos recargados o munición desarmada. Compatible con Guns of Marz.",["top"]],
+  [2920899878,"Load All Magazines","guns","Recarga todos tus cargadores de una vez desde el clic derecho."],
+  [3787909643,"Muzzle Smoke","guns","Humo en la boca del cañón al disparar, ajustado también a los silenciadores."],
+  [3775549570,"Alice's Weapon Sling","guns","Correa para llevar un arma larga extra en el pecho o la espalda.",["warn"],"En prueba: avisen si la barra rápida o los accesorios de la mochila fallan."],
+  [3394044313,"Buttstroke","guns","Golpe con la culata del arma de fuego para sacarte zombies de encima.",["warn"],"En prueba junto a las bayonetas de Guns of Marz."],
+  [3784677588,"3D Gun Racks","guns","Armeros y estantes que exhiben tus armas en 3D en la base."],
+  // Cuerpo a cuerpo
+  [3747202678,"Madax Weapons Pack","melee","73 armas cuerpo a cuerpo: hachas, machetes, katanas, cuchillos y más.",["top"]],
+  [3791279212,"I Am Bruce Lee Now","melee","Artes marciales: con vendas especiales en las manos peleas a mano limpia.",["top"]],
+  [3802860016,"Bruce Lee's Nunchaku","melee","Nunchakus que usan la misma habilidad de artes marciales."],
+  [3775347583,"Plank Spear","melee","Fabrica lanzas con tablones."],
+  [3776949545,"SVRP ClassicBows","melee","Arcos y ballestas para cazar y matar en silencio."],
+  [3771638611,"Fancy Handwork","melee","Animaciones nuevas al usar armas a dos manos e interactuar con el entorno."],
+  [3713054800,"More Zombie Death Animations","melee","Más animaciones de muerte para los zombies."],
+  // Inventario
+  [3775513231,"Inventory Tetris","inv","Inventario por cuadrícula: cada objeto ocupa espacio y hay que acomodarlo. Incluye pantalla de equipo con tu personaje.",["top","warn"],"Cambia bastante la forma de jugar: más estratégico, más lento ordenar."],
+  [2847184718,"Proximity Inventory","inv","Junta en una sola ventana todo lo que hay en contenedores y cadáveres cercanos.",["top"]],
+  [3749848348,"Plysken Attachments Reborn","inv","Ranuras por fuera de la mochila para colgar herramientas y armas."],
+  [3737772445,"TwisTonFire – DuffleBag","inv","Lleva un bolso de lona en la espalda baja además de la mochila."],
+  [3778709615,"Simple Belt Flashlight+","inv","Linterna enganchada al cinturón: manos libres y luz."],
+  [3749026793,"Carry Visible Items","inv","Los objetos grandes que cargas se ven en las manos."],
+  [3783711793,"Immersive Backpack Sounds","inv","Sonidos de la mochila al moverte, según cuánto cargas."],
+  [3776502124,"Zero Weight Keys","inv","Las llaves no pesan nada."],
+  [3492077449,"Equip Items While Running","inv","Equipa cosas y ropa sin dejar de correr (con penalización de velocidad)."],
+  [2423266708,"Hats and Glasses Don't Fall","inv","Los gorros y lentes ya no se caen en cada pelea."],
+  [2769706949,"Tidy Up Meister","inv","Te vuelve a equipar el arma y la linterna después de leer, comer, etc."],
+  [3767639280,"Item Arrange","inv","Coloca objetos ordenados sobre muebles para decorar la base."],
+  // Interfaz
+  [3461263912,"Clean HotBar","ui","Barra rápida que muestra durabilidad, munición y batería.",["top"]],
+  [3451167732,"Modern Status","ui","Hambre, sed, sueño y temperatura siempre visibles en pantalla."],
+  [3710913197,"Mini Health Plus","ui","Panel de salud compacto que aparece cuando tienes heridas que tratar."],
+  [3604080281,"Better Clothing Info","ui","Al pasar el cursor por una prenda: en qué parte del cuerpo va, qué reemplaza y cuánto protege.",["warn"],"Si la info de un arma de Guns of Marz no aparece, avisa."],
+  [3572846242,"Detailed Skill Tooltips","ui","Muestra qué te da cada nivel de cada habilidad."],
+  [3776490883,"Show Skill XP Gain","ui","Texto flotante \"+XP\" al ganar experiencia."],
+  [3739168410,"Obvious Skill Tapes","ui","Resalta las cintas VHS que enseñan habilidades."],
+  [2544353492,"Has Been Read","ui","Marca libros, revistas y cintas que ya leíste o viste."],
+  [3734639991,"Seed Season Indicator","ui","Indica en qué estación conviene plantar cada semilla."],
+  [3576056135,"Better Generator Info","ui","Muestra el combustible restante y el alcance del generador."],
+  [3755993986,"Gas Pump Indicator","ui","Indica qué surtidores todavía tienen gasolina."],
+  [2710167561,"Map Legend UI","ui","Leyenda para entender los símbolos del mapa."],
+  [3785198639,"Map All Known Fix","ui","Corrección del mapa para B42."],
+  [3572564421,"TwisTonFire – MiniMap","ui","Minimapa en pantalla, redimensionable."],
+  [3770149036,"PZ Map","ui","Mapa en vivo en el navegador o en un segundo monitor."],
+  [3780688809,"Context Menu Cleanup","ui","Ordena y limpia el menú del clic derecho."],
+  [3502080466,"Neat Crafting","ui","Menú de fabricación mucho más claro."],
+  [3536052310,"Neat Building","ui","Menú de construcción con buscador y filtros."],
+  [3119788162,"Every Texture Optimized","ui","Texturas optimizadas para ganar FPS."],
+  // Supervivencia
+  [2503622437,"Skill Recovery Journal","surv","Escribe tu experiencia en un diario. Si mueres, el nuevo personaje la recupera leyéndolo.",["top"]],
+  [3781533687,"True Sleep","surv","Dormir funciona bien en multijugador. El cansancio importa: hay que dormir."],
+  [3490188370,"Project Cook","surv","Pantalla de cocina con recetas y paneles de horno y fogón."],
+  [3577903007,"Vanilla Foods Expanded","surv","Más comida y recetas con estilo del juego."],
+  [3447775367,"Drink Smart","surv","Bebe solo lo necesario para quitar la sed."],
+  [3460812542,"Washing Menus Improved","surv","Menús de lavado más claros."],
+  [3786647452,"Read While Walking","surv","Lee mientras caminas."],
+  [3783949266,"ReBandaged","surv","Cambia vendas sucias por limpias más fácilmente."],
+  [2956146279,"Rain Cleans Blood","surv","La lluvia y la nieve limpian la sangre."],
+  [3393821407,"Drag Bodies Faster","surv","Arrastras cadáveres 50 % más rápido."],
+  [3579640010,"Pry Open","surv","Fuerza puertas, ventanas y autos con una palanca.",["top"]],
+  [3780683663,"Cye's Push Doors","surv","Empuja puertas para golpear o derribar a los zombies que hay detrás."],
+  [3629835761,"Ladders","surv","Sube con escaleras a techos y segundos pisos. Bases más seguras.",["top"]],
+  [2699828474,"Rebalanced Prop Moving","surv","Mueve muebles sin herramientas ni riesgo de romperlos."],
+  [3378304610,"Repairable Windows","surv","Quita y pon vidrios en ventanas."],
+  [3044705007,"Fix BlowTorch & PropaneTank","surv","El soplete pasa de 10 a 100 usos."],
+  [3436537035,"Useful Barrels","surv","Más usos para los barriles.",["warn"],"Su autor dice que en multijugador no está del todo probado."],
+  [3413150945,"More Damaged Objects","surv","Más objetos del mapa se pueden dañar o destruir.",["warn"],"No se puede quitar a mitad de partida."],
+  // Personaje y ropa
+  [3414634809,"Spongie's Character Customisation","look","Caras, pecas, lunares, cicatrices, vello y barba que crece y se afeita. Puedes editar tu personaje al entrar.",["top","client"]],
+  [2447729538,"Fluffy Hair","look","El pelo ya no se aplasta con gorros. Lo necesita Spongie's Hair.",["client"]],
+  [2463184726,"Spongie's Hair","look","80 peinados nuevos.",["client"]],
+  [3589548354,"Improved Hair Menu","look","Selector visual de peinados y barbas."],
+  [3041733782,"Spongie's Hairstyle Unlocker","look","Desbloquea los peinados de mods. Algunos necesitan gel o spray."],
+  [2684285534,"Spongie's Clothing","look","Ropa nueva con estilo del juego."],
+  [2812326159,"Spongie's Open Jackets","look","Abre chaquetas, arremanga y mete los pantalones en las botas."],
+  [3783094058,"Vanilla Outfits Expanded","look","~28 prendas nuevas (buzos, cargos, parkas, uniforme de paramédico…) y más colores."],
+  [3401134276,"Vanilla Gear Expanded","look","Equipo policial y táctico: chalecos antibalas de policía, SWAT, FBI y ATF, y armadura antidisturbios."],
+  [2142622992,"Repair Any Clothes","look","Repara cualquier prenda, incluidos chalecos y monos."],
+  // Vehículos
+  [2642541073,"'92 AM General M998 (Humvee)","veh","El Humvee clásico del ejército, con remolque.",["top"]],
+  [2799152995,"'78 AM General M35","veh","Camiones militares de 2,5 t, con versiones cisterna de combustible y de agua."],
+  [3790021065,"AM General Tanker Functionality","veh","Hace funcionales las cisternas del M35: transporta combustible y agua (necesitas una manguera)."],
+  [2811383142,"'83 AM General M923","veh","Camión militar de 5 t."],
+  [3428008364,"'86 Chevrolet CUCV","veh","Camionetas militares basadas en la Chevy K, con remolque."],
+  [3171184800,"'84 Cadillac Gage LAV-300","veh","Blindado de ruedas."],
+  [3436499337,"Vehicle Military Zones","veh","Zonas militares, convoyes abandonados y controles en carretera con vehículos militares."],
+  [2409333430,"'91 Range Rover Classic","veh","4×4 clásico."],
+  [3570973322,"'89 Land Rover Defender","veh","4×4 todoterreno."],
+  [3435796523,"'88 Toyota Hilux","veh","Camioneta indestructible (casi)."],
+  [3152529790,"'93 Chevrolet Suburban / Silverado","veh","SUV y camionetas."],
+  [2886832936,"'88 Chevrolet S10","veh","Camioneta compacta."],
+  [3287727378,"'92 Jeep YJ Wrangler","veh","Jeep todoterreno."],
+  [2870394916,"'86 Ford Econoline E-150","veh","Furgonetas, incluidas variantes de cultura pop."],
+  [2962175696,"'92 Ford Crown Victoria","veh","Patrulla de policía."],
+  [3703948448,"'79 Chevrolet Camaro","veh","Muscle car."],
+  [2942793445,"'90 Pierce Arrow","veh","Camiones de bomberos: bomba y escalera."],
+  [3330403100,"Trailers!","veh","Remolques de carga, utilitarios y de ganado."],
+  [2757712197,"Vehicle Repair Overhaul","veh","Repara y desguaza cualquier auto, del juego base o de mods.",["top"]],
+  [3635856965,"Better Auto Mechanics","veh","Entrena mecánica automáticamente desmontando y montando piezas."],
+  [3780639614,"Push Vehicle","veh","Empuja el auto cuando se queda sin gasolina."],
+  [2584112711,"Faster Hood Opening","veh","Abre el capó casi al instante."],
+  [3576268735,"Dude, Where Is My Car?","veh","Marca en el mapa dónde dejaste tu auto."],
+  [3784348098,"Whose Key Is This?","veh","Indica qué auto abre cada llave y lo marca en el mapa."],
+  [3793663684,"Corpse Plow Attachment","veh","Pala para apartar cadáveres, instalable en cualquier vehículo."],
+  [3800858172,"Vehicle Armor Crafting","veh","Blindaje casero para capó, maletero y ventanas."],
+  [3687394815,"Taillights and Stoplights","veh","Luces traseras y de freno visibles."],
+  // Librerías
+  [3171167894,"that DAMN Library","lib","Base de todos los autos KI5.",["lib"]],
+  [3508537032,"NeatUI Framework","lib","Base de Neat Crafting, Neat Building y Modern Status.",["lib"]],
+  [3722064198,"Gunworks Framework","lib","Base del sistema de armas de Guns of Marz.",["lib"]],
+  [3077900375,"Mod Update and Alert System","lib","Requisito de Skill Recovery Journal y errorMagnifier.",["lib"]],
+  [2896041179,"errorMagnifier","lib","Muestra un aviso cuando un mod tira un error. Útil para reportar problemas.",["lib"]],
+  [3378285185,"Starlit Library","lib","Requisito de Repairable Windows.",["lib"]],
+  [3624971238,"Yet Another PZ Library","lib","Requisito de Vehicle Military Zones.",["lib"]]
+];
+
+const TAG = {top:["DESTACADO","t-top"], warn:["OJO","t-warn"], client:["ACTIVAR EN MENÚ","t-client"], lib:["BASE","t-lib"]};
+const url = id => "https://steamcommunity.com/sharedfiles/filedetails/?id=" + id;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function card(m){
+  const [id,name,,desc,tags=[],note] = m;
+  const t = tags.map(k => `<span class="tag ${TAG[k][1]}">${TAG[k][0]}</span>`).join("");
+  return `<article class="mod">
+    ${t ? `<div class="tags">${t}</div>` : ""}
+    <h3><a href="${url(id)}" target="_blank" rel="noopener">${esc(name)}</a></h3>
+    <p>${esc(desc)}</p>
+    ${note ? `<div class="note">${esc(note)}</div>` : ""}
+    <div class="id">Workshop ${id}</div>
+  </article>`;
+}
+
+document.getElementById("statMods").textContent = MODS.length;
+document.getElementById("idbox").value = MODS.map(m => m[0]).join(";");
+document.getElementById("highlights").innerHTML = MODS.filter(m => (m[4]||[]).includes("top")).map(card).join("");
+
+let active = "all";
+const chips = document.getElementById("chips");
+const allChips = [{id:"all",name:"Todos"}].concat(CATS);
+chips.innerHTML = allChips.map(c => {
+  const n = c.id === "all" ? MODS.length : MODS.filter(m => m[2] === c.id).length;
+  return `<button class="chip" type="button" data-cat="${c.id}" aria-pressed="${c.id==="all"}">${esc(c.name)} · ${n}</button>`;
+}).join("");
+chips.addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if(!b) return;
+  active = b.dataset.cat;
+  chips.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", x === b));
+  render();
+});
+
+const q = document.getElementById("q");
+q.addEventListener("input", render);
+const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+
+function render(){
+  const term = norm(q.value.trim());
+  let html = "", total = 0;
+  for(const c of CATS){
+    if(active !== "all" && active !== c.id) continue;
+    const items = MODS.filter(m => m[2] === c.id && (!term || norm(m[1]+" "+m[3]+" "+(m[5]||"")+" "+m[0]).includes(term)));
+    if(!items.length) continue;
+    total += items.length;
+    html += `<div class="cat"><div class="cat-head"><h3 style="font:700 22px Oswald,sans-serif;text-transform:uppercase">${esc(c.name)}</h3><span class="count">${items.length} mods</span></div>
+      <p class="cat-desc">${esc(c.desc)}</p><div class="mods">${items.map(card).join("")}</div></div>`;
+  }
+  document.getElementById("list").innerHTML = total ? html : `<p class="empty">No hay mods que coincidan con "${esc(q.value)}".</p>`;
+}
+render();
+
+document.getElementById("copyIds").addEventListener("click", async () => {
+  const box = document.getElementById("idbox"), msg = document.getElementById("copyMsg");
+  try { await navigator.clipboard.writeText(box.value); msg.textContent = "Copiados."; }
+  catch { box.select(); try { document.execCommand("copy"); msg.textContent = "Copiados."; } catch { msg.textContent = "Selecciona el texto y cópialo."; } }
+});
+
+const root = document.documentElement, themeBtn = document.getElementById("themeBtn");
+try { const t = localStorage.getItem("pz-theme"); if (t) root.dataset.theme = t; } catch {}
+themeBtn.addEventListener("click", () => {
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("pz-theme", root.dataset.theme); } catch {}
+});
+</script>
+</body>
+</html>
